@@ -1,7 +1,7 @@
 1.About:
     
-    This is a used car parts website.
-    I am still updating
+This is a website for used car parts. I am still updating it. On the website, you can add cars and parts. 
+Parts can be linked to a car, so if you choose a part type, such as "Engine," the part description will show the engine code.
 
 2.How to make it work:
 
