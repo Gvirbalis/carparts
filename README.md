@@ -1,6 +1,6 @@
 1.About:
     
-    This is a car parts website.
+    This is a used car parts website.
     I am still updating
 
 2.How to make it work:
@@ -41,7 +41,9 @@ Final launch:
 
     $python manage.py runserver
 
-3. Contacts:
+3. In Admin side you need add Car Models.
+
+4. Contacts:
 
 
 github: https://github.com/Gvirbalis
