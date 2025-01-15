@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<h1>Search for "{{ query }}" results:</h1>
+</br>
+{% if parts %}
+<div class="row">
+    {% for part in parts %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card mb-4 shadow-sm">
+            {% if part.part_picture %}
+            <img src="{{ part.part_picture.url }}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="{% static 'img/no-image.jpg' %}" class="card-img-top">
+            {% endif %}
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted"><strong>{{ part.part_name }}</strong> {{ part.part_oem }}</h5>
+                {% if part.side %}
+                <p class="card-text"> Side:
+                    {{ part.side }}</p>
+                {% endif %}
+                <p class="card-text">Price:
+                    {{part.price}} €</p>
+                <p class="card-text">Condition:
+                    {{part.condition}}</p>
+                <p class="card-text"><a href="{% url 'part' part.id %}">More detail. Click here!</a></p>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+{% else %}
+<p>Oops. Not found anything :(</p>
+{% endif %}
+{% endblock %}

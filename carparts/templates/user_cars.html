@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+{% if request.user.profile.status == 'Verified' %}
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-cars-new' %}">Add Car</a>
+</div>
+{% endif %}
+<h4>My cars</h4>
+<p>Available: <strong>{{ cars_count }}</strong></p>
+<div class="row">
+    {% for car in car_list %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card mb-4 shadow-sm">
+            <img src="{{ car.car_cover.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted"><strong>{{ car.car_model }}</strong> {{ car.years }}
+                    {{car.engine}}</h5>
+                <p class="card-text"> Fuel type:
+                    {{car.fuel}}</p>
+                <p class="card-text">Power:
+                    {{car.power}} kw</p>
+                <p class="card-text">Gearbox:
+                    {{car.gearbox}}</p>
+                <a class="click-box" href="{% url 'car' car.id %}">More detail. Click here!</a>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+<div class="container puslapiai">
+    <nav aria-label="...">
+        {% if cars.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in cars.paginator.page_range %}
+            {% if cars.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+{% endblock %}

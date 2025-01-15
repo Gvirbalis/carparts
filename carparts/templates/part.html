@@ -1,0 +1,154 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="{% static 'css/pics_block.css' %}">
+<link rel="stylesheet" href="{% static 'css/click_box.css' %}">
+<body>
+{% if part.owner == request.user %}
+    <div>
+        <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-parts-update' part.id %}">Edit</a>
+    </div>
+{% endif %}
+
+    <h4 style="text-align:left">{{ part.part_name }}</h4>
+<div class="row">
+    <div class="column">
+        <img src="{{ part.part_picture.url }}" style="width:100%" onclick="openModal();currentSlide(1)" class="hover-shadow cursor">
+    </div>
+</div>
+<div id="myModal" class="modal">
+    <span class="close cursor" onclick="closeModal()">&times;</span>
+    <div class="modal-content">
+
+        <div class="mySlides">
+            <div class="numbertext">1 / 4</div>
+            <img src="{{ part.part_picture.url }}" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">2 / 4</div>
+            <img src="{{ part.part_picture_2.url }}" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">3 / 4</div>
+            <img src="{{ part.part_picture_3.url }}" style="width:100%">
+        </div>
+
+        <div class="mySlides">
+            <div class="numbertext">4 / 4</div>
+            <img src="{{ part.part_picture_4.url }}" style="width:100%">
+        </div>
+
+        <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+        <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+        <div class="caption-container">
+            <p id="caption"></p>
+        </div>
+        <div class="row">
+            <div class="column">
+                <img class="demo cursor" src="{{ part.part_picture.url }}" style="width:100%" onclick="currentSlide(1)"
+                     alt="">
+            </div>
+            <div class="column">
+                <img class="demo cursor" src="{{ part.part_picture_2.url }}" style="width:100%" onclick="currentSlide(2)" alt="">
+            </div>
+            <div class="column">
+                <img class="demo cursor" src="{{ part.part_picture_3.url }}" style="width:100%" onclick="currentSlide(3)"
+                     alt="">
+            </div>
+            <div class="column">
+                <img class="demo cursor" src="{{ part.part_picture_4.url }}" style="width:100%" onclick="currentSlide(4)"
+                     alt="">
+            </div>
+        </div>
+    </div>
+</div>
+<script src="{% static 'js/pics_block.js' %}"></script>
+</body>
+
+<div class="container part" style="text-align:left">
+    <hr/>
+    <p>Part OEM: {{ part.part_oem }}</p>
+    <p>Description: {{ part.part_description }}</p>
+
+    {% if part.side %}
+    <p>Side: {{ part.side }}</p>
+    {% endif %}
+
+    {% if part.part_type.part_type == 'engine' %}
+        {% for car in cars %}
+        <p>Car Engine Code: {{ car.engine_code }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if part.part_type.part_type == 'gearbox' %}
+        {% for car in cars %}
+        <p>Gearbox Code: {{car.gearbox_code}}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if part.part_type.part_type == 'body_parts' or part.part_type.part_type == 'front_body' or part.part_type.part_type == 'rear_body' %}
+        {% for car in cars %}
+        <p>Car Color: {{ car.color }}</p>
+        {% endfor %}
+    {% endif %}
+
+    {% if part.condition %}
+    <p>Condition: {{ part.condition }}</p>
+    {% endif %}
+
+    <p>Price: {{ part.price }}€ <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'add_to_cart' part.id %}">Add to Cart</a></p>
+</div>
+<div class="container part" style="text-align:left">
+    <h4 class="account-heading">Seller info:</h4>
+    {% if part.owner %}
+        {% if part.owner.first_name %}
+        <p class="text-secondary">Name: {{ part.owner.first_name }}</p>
+        {% endif %}
+        {% if part.owner.email %}
+        <p class="text-secondary">E.mail: {{ part.owner.email }}</p>
+        {% endif %}
+        {% if part.owner.profile.city and part.owner.profile.address %}
+        <p class="text-secondary">Address: {{ part.owner.profile.city }},{{ part.owner.profile.address }}</p>
+        {% endif %}
+        {% if part.owner.profile.phone_number %}
+        <p class="text-secondary">Phone: {{ part.owner.profile.phone_number }}</p>
+        {% endif %}
+    {% else %}
+    <p class="text-secondary">No information about seller.</p>
+    {% endif %}
+</div>
+<hr/>
+<h4>Car info:</h4>
+<div class="row">
+    {% for car in cars %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card mb-4 shadow-sm">
+            {% if car.car_cover %}
+            <img src="{{ car.car_cover.url }}" class="card-img-top" alt="...">
+            {% else %}
+            <img src="{% static 'img/no-image.jpg' %}" class="card-img-top">
+            {% endif %}
+
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted"><strong>{{ car.car_model }}</strong> {{ car.years }}
+                    {{car.engine}}</h5>
+                <p class="card-text"> Fuel type:
+                    {{car.fuel}}</p>
+                <p class="card-text">Power:
+                    {{car.power}} kw</p>
+                <p class="card-text">Gearbox:
+                    {{car.gearbox}}</p>
+                <a class="click-box" href="{% url 'car' car.id %}">More detail. Click here!</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No information about car.</p>
+</div>
+    {% endfor %}
+{% endblock %}

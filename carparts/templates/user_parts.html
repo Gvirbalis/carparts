@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+{% if request.user.profile.status == 'Verified' %}
+<link rel="stylesheet" href="{% static 'css/click_box.css' %}">
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-parts-new' %}">Add new part</a>
+</div>
+{% endif %}
+<h4>My listed parts</h4>
+<p>Available: <strong>{{ parts_count }}</strong></p>
+<div class="row">
+    {% for part in part_list %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card mb-4 shadow-sm">
+            <img src="{{ part.part_picture.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <p class="card-text"><strong> Status: {{ part.status }}</strong></p>
+                <h5 class="card-subtitle mb-2 text-muted"><strong>{{ part.part_oem }}</strong> {{ part.part_name }}</h5>
+                {% if part.side %}
+                <p class="card-text">Side: {{ part.side }}</p>
+                {% endif %}
+                <p class="card-text">Price: {{ part.price }} €</p>
+                <p class="card-text">Condition: {{ part.condition }}</p>
+                <a  class="click-box" href="{% url 'part' part.id %}">More detail. Click here!</a>
+            </div>
+        </div>
+    </div>
+    {% empty %}
+    <p>No parts available.
+    <p>Because not listed any parts, or ur account is not verified.</p>
+    <p>Please contact to us!</p>
+    <p>To start ur journey to sell parts with us!</p>
+    {% endfor %}
+</div>
+<div class="container puslapiai">
+    <nav aria-label="Parts pagination">
+        {% if page_obj.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in page_obj.paginator.page_range %}
+            {% if page_obj.number == i %}
+            <li class="page-item active">
+                <a class="page-link" href="#">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+{% endblock %}

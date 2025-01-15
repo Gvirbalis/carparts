@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/click_box.css' %}">
+<p>Available parts right now: <strong>{{ parts_count }}</strong></p>
+<div class="row">
+    {% for part in parts %}
+        {% if part.status == 'Available' %}
+        <div class="col-md-4 d-flex flex-wrap align-items-stretch">
+            <div class="card mb-4 shadow-sm">
+                <img src="{{ part.part_picture.url }}" class="card-img-top" alt="...">
+                <div class="card-body">
+                    <h5 class="card-subtitle mb-2 text-muted"><strong>{{ part.part_name }}</strong> {{ part.part_oem }}</h5>
+                    {% if part.side %}
+                    <p class="card-text"> Side:
+                        {{ part.side }}</p>
+                    {% endif %}
+                    {% if part.condition %}
+                    <p class="card-text"> Condition: {{part.condition}}</p>
+                    {% endif %}
+                    <p class="card-text">Price:
+                        {{part.price}} €</p>
+                     <a class="click-box" href="{% url 'add_to_cart' part.id %}">Add to Cart</a>
+                    <a class="click-box" href="{% url 'part' part.id %}">More detail. Click here!</a>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endfor %}
+</div>
+<div class="container page">
+    <nav aria-label="...">
+        {% if parts.has_other_pages %}
+        <ul class="pagination pagination-sm justify-content-end">
+            {% for i in parts.paginator.page_range %}
+            {% if parts.number == i %}
+            <li class="page-item active">
+                <a class="page-link">{{ i }}</a>
+            </li>
+            {% else %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ i }}">{{ i }}</a>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </nav>
+</div>
+{% endblock %}

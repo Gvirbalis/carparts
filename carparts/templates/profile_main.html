@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+
+{% block content %}
+      <div class="media">
+        <img class="rounded-circle account-img" src="{{ user.profile.cover.url }}">
+        <div class="media-body">
+          <h2 class="account-heading">{{ user.username }}</h2>
+          <p class="text-secondary">E.mail: {{ user.email }}</p>
+            <p class="text-secondary">Last time active: {{ user.last_login }}</p>
+            <p class="text-secondary">Account created: {{ user.date_joined }}</p>
+            <p>Change profile <a href="{% url 'profile'%}"><strong>Click here!</strong></a></p>
+        </div>
+      </div>
+    </div>
+{% endblock content %}

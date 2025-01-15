@@ -1,0 +1,14 @@
+.sidebar-nav {
+    margin-top: 20px;
+    padding: 0;
+    list-style: none;
+}
+.click-box {
+    display: block;
+    margin-top: 10px;
+    background-color: #a2b9bc;
+    color: #fff;
+    text-decoration: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+}

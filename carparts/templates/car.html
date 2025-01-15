@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+{% if car.owner == request.user %}
+<link rel="stylesheet" href="{% static 'css/click_box.css' %}">
+<div>
+    <a class="btn btn-secondary btn-sm mt-1 mb-1" href="{% url 'my-cars-update' car.id %}">Edit</a>
+</div>
+{% endif %}
+<div class="container car">
+    <h5>{{ car.car_model }} {{car.engine}} {{car.years}}</h5>
+    <img src="{{ car.car_cover.url }}" style="margin-bottom: 20px;">
+    <hr/>
+    <p>Brand: {{ car.car_model.brand }}</p>
+    <p>Model: {{ car.car_model.model }}</p>
+    <p>Years: {{ car.years }}</p>
+    <p>Engine: {{ car.engine }}</p>
+    <p>Engine code: {{car.engine_code}}</p>
+    <p>Power: {{ car.power }} kw</p>
+    <p>Fuel type: {{ car.fuel }}</p>
+    <p>Gearbox: {{ car.gearbox }}</p>
+    <p>Gearbox code: {{car.gearbox_code}}</p>
+    <p>Body type: {{ car.body_type }}</p>
+    <p>Car body color: {{ car.color }}</p>
+</div>
+<hr/>
+<h4>Available parts from this car:</h4>
+<div class="row">
+    {% for part in car.parts.all %}
+    {% if part.status == 'Available' %}
+    <div class="col-md-4 d-flex align-items-stretch">
+        <div class="card mb-4 shadow-sm">
+            <img src="{{ part.part_picture.url }}" class="card-img-top" alt="...">
+            <div class="card-body">
+                <h5 class="card-subtitle mb-2 text-muted"><strong>{{ part.part_name }}</strong> {{ part.part_oem }}</h5>
+                {% if part.side %}
+                <p class="card-text"> Side:
+                    {{ part.side }}</p>
+                {% endif %}
+                <p class="card-text">Price:
+                    {{part.price}} €</p>
+                <p class="card-text">Condition:
+                    {{part.condition}}</p>
+                <a class="click-box" href="{% url 'part' part.id %}">More detail. Click here!</a>
+                <a class="click-box" href="{% url 'add_to_cart' part.id %}">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+    {% empty %}
+</div>
+<p>No information about car parts. Please contact with seller.For detail info.</p>
+{% endfor %}
+{% endblock %}
