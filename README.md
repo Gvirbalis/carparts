@@ -42,7 +42,8 @@ Final launch:
     $python manage.py runserver
 
 3. In Admin side you need add:
-    Car Models.
+
+   Car Models.
    Part types.
 
 6. Contacts:
