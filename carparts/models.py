@@ -244,7 +244,6 @@ class Profile(models.Model):
 class CartItem(models.Model):
     part = models.ForeignKey(Part, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
         return f'{self.part.part_oem}'
