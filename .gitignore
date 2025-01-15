@@ -2,7 +2,4 @@
 .idea/
 .venv/
 __pycache__
-.carparts/covers
-.carparts/profile_pics
-.carparts/migrations
-.db.sqlite3
+db.sqlite3
