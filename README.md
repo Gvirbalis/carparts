@@ -1,7 +1,9 @@
 1.About:
     
-This is a website for used car parts. I am still updating it. On the website, you can add cars and parts. 
+This is a website for used car parts. I am still updating it. On the website, you can add cars and parts.
 Parts can be linked to a car, so if you choose a part type, such as "Engine," the part description will show the engine code.
+Don't forget, if you want to give some users permission to add cars or parts, you need to go to the admin panel, 
+click on "Profiles," select the user, change their status to "Verified," and save it!
 
 2.How to make it work:
 
